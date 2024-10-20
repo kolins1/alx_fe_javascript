@@ -1,60 +1,40 @@
-function createAddQuoteForm() {
-    // Create the form element
-    const form = document.createElement('form');
-    form.setAttribute('id', 'addQuoteForm');
+// Step 2: Array of quote objects (each quote has text and category)
+let quotes = [
+    { text: "The best way to predict the future is to create it.", category: "Motivation" },
+    { text: "Life is what happens when you're busy making other plans.", category: "Life" },
+    { text: "Success usually comes to those who are too busy to be looking for it.", category: "Success" },
+];
 
-    // Create input field for quote text
-    const quoteInput = document.createElement('input');
-    quoteInput.setAttribute('type', 'text');
-    quoteInput.setAttribute('id', 'quoteText');
-    quoteInput.setAttribute('name', 'quoteText');
-    quoteInput.setAttribute('placeholder', 'Enter your quote here');
-    quoteInput.required = true;
-
-    // Create input field for quote category
-    const categoryInput = document.createElement('input');
-    categoryInput.setAttribute('type', 'text');
-    categoryInput.setAttribute('id', 'quoteCategory');
-    categoryInput.setAttribute('name', 'quoteCategory');
-    categoryInput.setAttribute('placeholder', 'Enter category');
-    categoryInput.required = true;
-
-    // Create a submit button
-    const submitButton = document.createElement('button');
-    submitButton.setAttribute('type', 'submit');
-    submitButton.textContent = 'Add Quote';
-
-    // Append the inputs and button to the form
-    form.appendChild(quoteInput);
-    form.appendChild(categoryInput);
-    form.appendChild(submitButton);
-
-    // Add the form to the DOM, e.g., inside a specific container
-    document.getElementById('formContainer').appendChild(form);
-
-    // Add event listener for form submission
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevent the form from refreshing the page
-        const newQuote = quoteInput.value;
-        const newCategory = categoryInput.value;
-
-        if (newQuote && newCategory) {
-            // Call a function to handle the new quote and category addition
-            addNewQuote(newQuote, newCategory);
-        }
-
-        // Clear form inputs
-        form.reset();
-    });
+// Step 2: Function to display a random quote
+function showRandomQuote() {
+    const quoteDisplay = document.getElementById('quoteDisplay');
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomQuote = quotes[randomIndex];
+    quoteDisplay.textContent = `"${randomQuote.text}" - Category: ${randomQuote.category}`;
 }
 
-// Function to handle the new quote and category
-function addNewQuote(quote, category) {
-    // Logic to add the new quote to the system (e.g., pushing it to a quotes array)
-    console.log("New quote added:", quote, "Category:", category);
+// Step 3: Function to add a new quote
+function addQuote() {
+    const newQuoteText = document.getElementById('newQuoteText').value;
+    const newQuoteCategory = document.getElementById('newQuoteCategory').value;
+
+    if (newQuoteText && newQuoteCategory) {
+        // Add new quote to the quotes array
+        quotes.push({ text: newQuoteText, category: newQuoteCategory });
+        
+        // Clear the input fields
+        document.getElementById('newQuoteText').value = '';
+        document.getElementById('newQuoteCategory').value = '';
+        
+        alert("Quote added successfully!");
+    } else {
+        alert("Please enter both quote text and category.");
+    }
 }
 
-// Initialize the form when the page loads
-window.onload = function() {
-    createAddQuoteForm();
-};
+// Step 2: Event listeners
+document.getElementById('newQuote').addEventListener('click', showRandomQuote);
+document.getElementById('addQuoteButton').addEventListener('click', addQuote);
+
+// Show a random quote on page load
+showRandomQuote();
