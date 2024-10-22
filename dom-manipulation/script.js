@@ -11,7 +11,7 @@ function showRandomQuote() {
     const randomQuote = quotes[randomIndex];
 
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = `<p>"${randomQuote.text}" - ${randomQuote.category}</p>`;
+    quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`; // Using textContent
 }
 
 // Function to add a new quote
@@ -50,8 +50,8 @@ function populateCategories() {
     categories.forEach(category => {
         const option = document.createElement('option');
         option.value = category;
-        option.innerText = category;
-        categorySelect.appendChild(option); // Using appendChild to add to the dropdown
+        option.textContent = category; // Using textContent to add category name safely
+        categorySelect.appendChild(option);
     });
 }
 
@@ -69,9 +69,9 @@ function categoryFilter() {
     if (filteredQuotes.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
         const randomQuote = filteredQuotes[randomIndex];
-        quoteDisplay.innerHTML = `<p>"${randomQuote.text}" - ${randomQuote.category}</p>`;
+        quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`; // Using textContent
     } else {
-        quoteDisplay.innerHTML = `<p>No quotes available for this category.</p>`;
+        quoteDisplay.textContent = "No quotes available for this category."; // Using textContent
     }
 }
 
