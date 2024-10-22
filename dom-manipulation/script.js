@@ -106,3 +106,35 @@ async function fetchQuotesFromServer() {
         console.error("Error fetching data from server:", error);
     }
 }
+// Merge server and local quotes, resolve conflicts
+async function syncQuotes() {
+    const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    const serverQuotes = await fetchQuotesFromServer();
+
+    // Conflict Resolution: Server takes precedence in case of duplicates
+    const mergedQuotes = [...localQuotes, ...serverQuotes].reduce((acc, current) => {
+        const duplicate = acc.find(quote => quote.text === current.text);
+        if (!duplicate) {
+            acc.push(current);
+        }
+        return acc;
+    }, []);
+
+    // Update local storage with merged quotes
+    localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+
+    // Notify the user about syncing
+    alert('Quotes have been synced with the server.');
+}
+
+// Periodically sync quotes
+setInterval(syncQuotes, 60000); // Sync every 60 seconds
+// UI for manual conflict resolution (if needed)
+function notifyConflictResolution() {
+    const conflictNotification = document.createElement('div');
+    conflictNotification.textContent = "A conflict has been resolved with server data.";
+    conflictNotification.style.color = "red";
+    document.body.appendChild(conflictNotification);
+
+    // Optionally, you can provide buttons to allow users to resolve conflicts manually
+}
