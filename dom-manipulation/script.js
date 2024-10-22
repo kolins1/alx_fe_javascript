@@ -138,3 +138,53 @@ function notifyConflictResolution() {
 
     // Optionally, you can provide buttons to allow users to resolve conflicts manually
 }
+// Function to simulate sending a new quote to the server
+async function postQuoteToServer(newQuote) {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', { // Replace with your actual server URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newQuote)
+        });
+
+        const data = await response.json();
+        console.log('Quote posted to the server:', data);
+
+        // Optionally, notify the user that the quote was successfully posted
+        alert("New quote successfully posted to the server!");
+
+        return data;  // Return the server's response for further handling if necessary
+    } catch (error) {
+        console.error("Error posting data to the server:", error);
+    }
+}
+
+// Example usage when adding a new quote
+function addQuote() {
+    const newQuoteText = document.getElementById('newQuoteText').value;
+    const newQuoteCategory = document.getElementById('newQuoteCategory').value;
+
+    if (newQuoteText && newQuoteCategory) {
+        const newQuote = { text: newQuoteText, category: newQuoteCategory };
+
+        // Add the new quote to local storage
+        localQuotes.push(newQuote);
+        localStorage.setItem('quotes', JSON.stringify(localQuotes));
+
+        // Post the new quote to the server
+        postQuoteToServer(newQuote);
+
+        // Clear input fields after adding
+        document.getElementById('newQuoteText').value = '';
+        document.getElementById('newQuoteCategory').value = '';
+
+        // Update the category dropdown dynamically
+        populateCategories();
+
+        alert("New quote added!");
+    } else {
+        alert("Please enter both a quote and a category.");
+    }
+}
