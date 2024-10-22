@@ -188,3 +188,39 @@ function addQuote() {
         alert("Please enter both a quote and a category.");
     }
 }
+// Function to sync local and server quotes, with conflict resolution and user notification
+async function syncQuotes() {
+    const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    const serverQuotes = await fetchQuotesFromServer();
+
+    // Conflict Resolution: Server takes precedence in case of duplicates
+    const mergedQuotes = [...localQuotes, ...serverQuotes].reduce((acc, current) => {
+        const duplicate = acc.find(quote => quote.text === current.text);
+        if (!duplicate) {
+            acc.push(current);
+        }
+        return acc;
+    }, []);
+
+    // Update local storage with merged quotes
+    localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+
+    // Notify the user that quotes have been synced
+    alert('Quotes synced with server!');
+}
+
+// Periodically sync quotes (every 60 seconds)
+setInterval(syncQuotes, 60000); // Sync every 60 seconds
+
+// Function to simulate fetching quotes from server (same as before)
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts'); // Mock API URL
+        const data = await response.json();
+        const serverQuotes = data.map(item => ({ text: item.body, category: "Server" }));
+        return serverQuotes;
+    } catch (error) {
+        console.error("Error fetching data from server:", error);
+        return [];
+    }
+}
