@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +9,21 @@
 <body>
     <h1>Dynamic Quote Generator</h1>
 
-    <!-- Display for random quotes -->
+    <!-- Section to display the quote -->
     <div id="quoteDisplay"></div>
+
+    <!-- Dropdown for selecting category -->
+    <select id="categorySelect">
+        <option value="All">All Categories</option>
+    </select>
+
     <button id="newQuote">Show New Quote</button>
 
-    <!-- Form to add new quotes dynamically -->
+    <!-- Form to add a new quote -->
     <div>
         <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-        <button id="addQuoteButton">Add Quote</button>
+        <button onclick="addQuote()">Add Quote</button>
     </div>
 
     <script src="script.js"></script>
