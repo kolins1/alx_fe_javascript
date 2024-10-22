@@ -11,7 +11,7 @@ function showRandomQuote() {
     const randomQuote = quotes[randomIndex];
 
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`; // Using textContent
+    quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`;
 }
 
 // Function to add a new quote
@@ -50,28 +50,27 @@ function populateCategories() {
     categories.forEach(category => {
         const option = document.createElement('option');
         option.value = category;
-        option.textContent = category; // Using textContent to add category name safely
+        option.textContent = category;
         categorySelect.appendChild(option);
     });
 }
 
-// Function to filter quotes by category
-function categoryFilter() {
-    const selectedCategory = document.getElementById('categorySelect').value;
+// Function to filter quotes by category (new implementation)
+function filterQuote(category) {
     const quoteDisplay = document.getElementById('quoteDisplay');
 
-    // Filter quotes based on selected category
-    const filteredQuotes = selectedCategory === 'all' 
+    // Filter quotes based on the given category
+    const filteredQuotes = category === 'all' 
         ? quotes 
-        : quotes.filter(quote => quote.category === selectedCategory);
+        : quotes.filter(quote => quote.category === category);
 
-    // Display the filtered quotes
+    // Display the filtered quotes or a message if no quotes exist for that category
     if (filteredQuotes.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
         const randomQuote = filteredQuotes[randomIndex];
-        quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`; // Using textContent
+        quoteDisplay.textContent = `"${randomQuote.text}" - ${randomQuote.category}`;
     } else {
-        quoteDisplay.textContent = "No quotes available for this category."; // Using textContent
+        quoteDisplay.textContent = "No quotes available for this category.";
     }
 }
 
@@ -83,12 +82,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Populate the categories dropdown
     populateCategories();
 
-    // Show a new random quote when the button is clicked
-    document.getElementById('newQuote').addEventListener('click', categoryFilter);
+    // Show a random quote when the button is clicked
+    document.getElementById('newQuote').addEventListener('click', () => {
+        const selectedCategory = document.getElementById('categorySelect').value;
+        filterQuote(selectedCategory); // Use filterQuote to filter based on the selected category
+    });
 
     // Add a new quote when the 'Add Quote' button is clicked
     document.getElementById('addQuoteButton').addEventListener('click', addQuote);
 
-    // Filter quotes by selected category
-    document.getElementById('categorySelect').addEventListener('change', categoryFilter);
+    // Filter quotes by selected category when the category changes
+    document.getElementById('categorySelect').addEventListener('change', () => {
+        const selectedCategory = document.getElementById('categorySelect').value;
+        filterQuote(selectedCategory); // Call filterQuote to update the displayed quote
+    });
 });
