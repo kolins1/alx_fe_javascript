@@ -92,3 +92,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Filter quotes by selected category
     document.getElementById('categorySelect').addEventListener('change', categoryFilter);
 });
+// Simulate fetching quotes from server
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts'); // Replace with your server URL or mock API
+        const data = await response.json();
+
+        // Simulating that the server data contains quotes (adapt JSON to fit quote format)
+        const serverQuotes = data.map(item => ({ text: item.body, category: "Server" }));
+
+        return serverQuotes;
+    } catch (error) {
+        console.error("Error fetching data from server:", error);
+    }
+}
