@@ -9,6 +9,63 @@ const quoteElement = document.getElementById('quote');
 
 // Set the text content (avoids HTML injection)
 quoteElement.textContent = "This is a dynamically generated quote.";
+// Function to create a form for adding quotes
+function createAddQuoteForm() {
+    // Create a form element
+    const form = document.createElement('form');
+    form.id = 'addQuoteForm';  // Setting an ID for reference
+
+    // Create input field for the quote text
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = 'quoteInput';
+    input.placeholder = 'Enter your quote here...';
+    input.required = true;  // Ensures the field is not empty
+
+    // Create a submit button
+    const submitButton = document.createElement('button');
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add Quote';
+
+    // Append input and button to the form
+    form.appendChild(input);
+    form.appendChild(submitButton);
+
+    // Append the form to the DOM, e.g., to a container div
+    const formContainer = document.getElementById('formContainer');
+    formContainer.appendChild(form);
+
+    // Add event listener for form submission
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent page reload on submit
+        
+        // Get the value of the input
+        const newQuote = input.value;
+
+        // Call a function to handle adding the new quote
+        addQuoteToDOM(newQuote);
+
+        // Clear the input field after submission
+        input.value = '';
+    });
+}
+
+// Function to add the new quote to the DOM (as an example)
+function addQuoteToDOM(quote) {
+    const quoteContainer = document.getElementById('quoteContainer');
+    
+    // Create a new paragraph element for the quote
+    const newQuoteElement = document.createElement('p');
+    newQuoteElement.textContent = quote;
+
+    // Append the new quote to the container
+    quoteContainer.appendChild(newQuoteElement);
+}
+
+// Call the function to create the form when the page loads
+window.onload = function() {
+    createAddQuoteForm();
+};
 
 // Function to display a random quote
 function showRandomQuote() {
