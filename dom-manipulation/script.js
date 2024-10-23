@@ -4,6 +4,11 @@ const quotes = [
     { text: "Do not watch the clock. Do what it does. Keep going.", category: "Motivation" },
     { text: "Success is not the key to happiness. Happiness is the key to success.", category: "Happiness" },
 ];
+// Find the element
+const quoteElement = document.getElementById('quote');
+
+// Set the text content (avoids HTML injection)
+quoteElement.textContent = "This is a dynamically generated quote.";
 
 // Function to display a random quote
 function showRandomQuote() {
