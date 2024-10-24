@@ -200,6 +200,7 @@ function notifyConflictResolution() {
 
     // Optionally, you can provide buttons to allow users to resolve conflicts manually
 }
+
 // Function to simulate sending a new quote to the server
 async function postQuoteToServer(newQuote) {
     try {
@@ -286,3 +287,4 @@ async function fetchQuotesFromServer() {
         return [];
     }
 }
+// Sample array of quotes (you can replace this with dynamic data)
