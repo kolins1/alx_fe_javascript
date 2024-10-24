@@ -288,3 +288,23 @@ async function fetchQuotesFromServer() {
     }
 }
 // Sample array of quotes (you can replace this with dynamic data)
+// Function to export quotes to a JSON file using Blob
+function exportToJson() {
+    // Convert quotes array to a JSON string with pretty formatting
+    const dataStr = JSON.stringify(quotes, null, 2);
+
+    // Create a new Blob with the JSON data
+    const blob = new Blob([dataStr], { type: 'application/json' });
+
+    // Create a URL for the Blob and set it as the href for a download link
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary download link and trigger the download
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = 'quotes.json';  // The filename for the download
+    downloadLink.click();  // Programmatically click the link to start download
+
+    // Cleanup the URL object after download
+    URL.revokeObjectURL(url);
+}
