@@ -308,3 +308,36 @@ function exportToJson() {
     // Cleanup the URL object after download
     URL.revokeObjectURL(url);
 }
+// Function to import quotes from a JSON file
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+
+    // Define the onload function for the FileReader
+    fileReader.onload = function(e) {
+        try {
+            // Parse the JSON data from the file
+            const importedQuotes = JSON.parse(e.target.result);
+
+            // Validate that the imported data is an array of quotes
+            if (Array.isArray(importedQuotes)) {
+                // Add the imported quotes to the existing array
+                quotes.push(...importedQuotes);
+
+                // Save the updated quotes array to local storage
+                saveQuotes();
+
+                // Display the imported quotes in the DOM
+                importedQuotes.forEach(quote => addQuoteToDOM(quote));
+
+                alert('Quotes imported successfully!');
+            } else {
+                alert('Invalid file format. Please upload a JSON file with an array of quotes.');
+            }
+        } catch (error) {
+            alert('Error parsing the file. Please make sure the file is valid JSON.');
+        }
+    };
+
+    // Read the selected file as text
+    fileReader.readAsText(event.target.files[0]);
+}
