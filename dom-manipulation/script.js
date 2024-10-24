@@ -341,3 +341,19 @@ function importFromJsonFile(event) {
     // Read the selected file as text
     fileReader.readAsText(event.target.files[0]);
 }
+// Function to filter quotes by a keyword or category
+function filterQuote(keyword) {
+    // Clear the current quotes displayed
+    const quoteContainer = document.getElementById('quoteContainer');
+    quoteContainer.innerHTML = '';
+
+    // Filter quotes based on the keyword (case-insensitive search)
+    const filteredQuotes = quotes.filter(quote => quote.toLowerCase().includes(keyword.toLowerCase()));
+
+    // Display the filtered quotes
+    if (filteredQuotes.length > 0) {
+        filteredQuotes.forEach(quote => addQuoteToDOM(quote));
+    } else {
+        quoteContainer.innerHTML = '<p>No quotes found for the given search term.</p>';
+    }
+}
